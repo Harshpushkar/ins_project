@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CipherX — a premium playground for classical cryptography. Encrypt and decrypt text with Caesar, Vigenère and XOR ciphers." />
+  <title>CipherX — Encrypt everything.</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ambient blue 3D gradient orb sitting behind all content -->
+  <div class="orb" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- ===================== FLOATING PILL NAVBAR ===================== -->
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-logo" href="#top">
+      <span class="nav-logo-mark">&lt;/&gt;</span>
+      <span class="nav-logo-text">Cipher<b>X</b></span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#top" class="nav-link is-active">Home</a>
+      <a href="#algorithms" class="nav-link">Algorithms</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#help" class="nav-link">Help</a>
+    </div>
+
+    <!-- Optional convenience: export the current output as a .txt file -->
+    <button id="exportNavBtn" class="nav-export" type="button" title="Export current output as a .txt file">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12" /><path d="M7 10l5 5 5-5" /><path d="M5 21h14" />
+      </svg>
+      <span>Export</span>
+    </button>
+  </nav>
+
+  <main id="top">
+    <!-- ===================== HERO ===================== -->
+    <header class="hero">
+      <span class="hero-chip">Cryptography playground</span>
+      <h1 class="hero-title">
+        Secure your thoughts.<br />
+        <span class="grad">Encrypt everything.</span>
+      </h1>
+      <p class="hero-sub">A little playground for cryptography.</p>
+      <div class="hero-actions">
+        <a href="#workspace" class="btn btn-primary">Start encrypting</a>
+        <a href="#algorithms" class="btn btn-ghost">Explore algorithms</a>
+      </div>
+    </header>
+
+    <!-- ===================== ALGORITHM CARDS ===================== -->
+    <section id="algorithms" class="section">
+      <div class="section-head">
+        <h2 class="section-title">Choose an algorithm</h2>
+        <p class="section-sub">Three classical ciphers, each a different way of turning plaintext into ciphertext.</p>
+      </div>
+
+      <div class="algo-grid">
+        <!-- Caesar -->
+        <article class="algo-card is-active" data-algo="caesar" tabindex="0" role="button" aria-pressed="true">
+          <div class="algo-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 18l-0.8-9 5 4L12 6l4.8 7 5-4-0.8 9z" />
+              <path d="M3 21h18" />
+            </svg>
+          </div>
+          <h3 class="algo-name">Caesar Cipher</h3>
+          <p class="algo-desc">Shift-based encryption.</p>
+          <button class="btn btn-explore" type="button">Explore Cipher</button>
+        </article>
+
+        <!-- Vigenère -->
+        <article class="algo-card" data-algo="vigenere" tabindex="0" role="button" aria-pressed="false">
+          <div class="algo-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="8" cy="8" r="4.5" />
+              <path d="M11.2 11.2L20 20" />
+              <path d="M16 16l2-2" />
+              <path d="M19 19l2-2" />
+            </svg>
+          </div>
+          <h3 class="algo-name">Vigenère Cipher</h3>
+          <p class="algo-desc">Keyword-based encryption.</p>
+          <button class="btn btn-explore" type="button">Explore Cipher</button>
+        </article>
+
+        <!-- XOR -->
+        <article class="algo-card" data-algo="xor" tabindex="0" role="button" aria-pressed="false">
+          <div class="algo-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3.5" y="4" width="6" height="7" rx="1.4" />
+              <rect x="3.5" y="14" width="6" height="6" rx="1.4" />
+              <rect x="14.5" y="4" width="6" height="6" rx="1.4" />
+              <rect x="14.5" y="13" width="6" height="7" rx="1.4" />
+            </svg>
+          </div>
+          <h3 class="algo-name">XOR Cipher</h3>
+          <p class="algo-desc">Bitwise encryption.</p>
+          <button class="btn btn-explore" type="button">Explore Cipher</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== ENCRYPTION WORKSPACE ===================== -->
+    <section id="workspace" class="section">
+      <div class="workspace">
+        <!-- Header: selected algorithm -->
+        <div class="ws-head">
+          <div>
+            <span class="ws-eyebrow">Workspace</span>
+            <h2 id="wsTitle" class="ws-title">Caesar Cipher</h2>
+          </div>
+          <span id="wsBadge" class="ws-badge">Shift-based encryption</span>
+        </div>
+
+        <div class="ws-grid">
+          <!-- ---------- Input column ---------- -->
+          <div class="ws-col">
+            <div class="field">
+              <div class="field-row">
+                <label for="input">Plaintext</label>
+                <span class="counter"><span id="charCount">0</span> chars</span>
+              </div>
+              <textarea id="input" rows="8" spellcheck="false"
+                        placeholder="Type or paste your message here..."></textarea>
+            </div>
+
+            <div class="field">
+              <div class="field-row">
+                <label id="keyLabel" for="key">Shift key</label>
+                <span id="keyHint" class="hint-inline"></span>
+              </div>
+              <input id="key" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. 3" />
+            </div>
+
+            <div class="actions">
+              <button id="encryptBtn" class="btn btn-primary" type="button">Encrypt</button>
+              <button id="decryptBtn" class="btn btn-secondary" type="button">Decrypt</button>
+              <button id="clearBtn" class="btn btn-ghost" type="button">Clear</button>
+            </div>
+          </div>
+
+          <!-- ---------- Output column ---------- -->
+          <div class="ws-col">
+            <div class="field">
+              <div class="field-row">
+                <label for="output">Ciphertext / Result</label>
+                <span id="outputLabel" class="output-label">—</span>
+              </div>
+              <textarea id="output" rows="8" readonly
+                        placeholder="Your encrypted / decrypted result appears here..."></textarea>
+            </div>
+
+            <div class="actions">
+              <button id="copyBtn" class="btn btn-secondary" type="button">Copy Output</button>
+              <button id="swapBtn" class="btn btn-ghost" type="button">Use as Input</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EDUCATIONAL SECTION ===================== -->
+    <section id="about" class="section">
+      <div class="section-head">
+        <h2 class="section-title">The basics</h2>
+        <p class="section-sub">The vocabulary behind every cipher on this page.</p>
+      </div>
+
+      <div class="term-grid">
+        <article class="term-card">
+          <h3>Plaintext</h3>
+          <p>The original, readable message before encryption, e.g. <code>HELLO</code>.</p>
+        </article>
+        <article class="term-card">
+          <h3>Ciphertext</h3>
+          <p>The scrambled, unreadable result of encryption, e.g. <code>KHOOR</code>.</p>
+        </article>
+        <article class="term-card">
+          <h3>Encryption</h3>
+          <p>Converting plaintext into ciphertext using a secret key.</p>
+        </article>
+        <article class="term-card">
+          <h3>Decryption</h3>
+          <p>The reverse step: turning ciphertext back into readable plaintext.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== HOW EACH ALGORITHM WORKS ===================== -->
+    <section id="help" class="section">
+      <div class="section-head">
+        <h2 class="section-title">How it works</h2>
+        <p class="section-sub">A quick look under the hood of each algorithm.</p>
+      </div>
+
+      <div class="accordion">
+        <details class="acc-item" open>
+          <summary>Caesar Cipher</summary>
+          <p>
+            Every letter is shifted by a fixed number of positions given by the
+            <strong>key</strong>. With a shift of 3, A becomes D, B becomes E, and so on.
+            Letters wrap around at the end of the alphabet (Z + 3 becomes C). Spaces,
+            numbers and punctuation are left unchanged. Decryption shifts back the same amount.
+          </p>
+          <pre class="example">Plaintext :  HELLO WORLD
+Key       :  3
+Ciphertext:  KHOOR ZRUOG
+
+Decrypt   :  KHOOR ZRUOG  --(shift -3)-->  HELLO WORLD</pre>
+        </details>
+
+        <details class="acc-item">
+          <summary>Vigenère Cipher</summary>
+          <p>
+            A Caesar cipher with a <strong>moving shift</strong>. Each letter of a keyword
+            sets how far to shift the matching plaintext letter: A = 0, B = 1, … Z = 25.
+            The keyword repeats for the whole message, and only moves forward on letters,
+            so spaces and punctuation are preserved.
+          </p>
+          <pre class="example">Plaintext :  ATTACK AT DAWN
+Keyword   :  LEMON LEMONLEM
+Ciphertext:  LXFOPV EF RNHR
+
+Decrypt   :  LXFOPV EF RNHR  --(keyword LEMON)-->  ATTACK AT DAWN</pre>
+        </details>
+
+        <details class="acc-item">
+          <summary>XOR Cipher</summary>
+          <p>
+            Each character is turned into its byte value and combined with the bytes of the
+            key using a bitwise <strong>XOR</strong> (the key repeats as needed). XOR is its
+            own inverse, so applying the same key twice restores the text. Output is shown in
+            <strong>hexadecimal</strong> because XOR produces binary data, not readable text.
+          </p>
+          <pre class="example">Plaintext :  Hi
+Key       :  k
+Bytes     :  H(0x48) xor k(0x6B) = 0x23
+             i(0x69) xor k(0x6B) = 0x02
+Ciphertext(hex): 23 02
+
+Decrypt   :  23 02  --(key k)-->  Hi</pre>
+        </details>
+      </div>
+
+      <p class="disclaimer" role="note">
+        <strong>Educational use only.</strong> These classical ciphers are a great way to learn
+        the ideas behind cryptography, but they are <em>not secure</em> and must never be used
+        to protect real-world communication. Modern security needs algorithms such as AES and RSA
+        with careful key management.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="nav-logo-mark">&lt;/&gt;</span>
+    <p>CipherX — a playground for classical cryptography.</p>
+  </footer>
+
+  <!-- Toast notifications (success / error) are injected here -->
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
